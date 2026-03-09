@@ -1,11 +1,13 @@
 import { SelectionBox } from "./comps/SelectionBox";
-import { BrowserRouter } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FighterList from "./comps/FigtherList";
 import { fetchMatch } from "./api/fetchMatch";
 import { fetchFighters } from "./api/fetchFighters";
 import type { Fighter } from "./types/Fighter";
 import type { Option } from "./comps/SelectionBox";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Navbar from "./comps/Navbar";
+import Home from "./comps/Home";
 
 export default function App() {
 
@@ -40,36 +42,40 @@ export default function App() {
   };
 
   return (
-    <>
-      <BrowserRouter>
-
-       <SelectionBox
-        fighter={fighterA?.name ?? "Unknown"}
-        option="a"
-        elo={fighterA?.elo ?? 0}
-        isShown={isShown}
-        selectedOption={selectedOption}
-        onSelect={handleSelect}
-      />
-
-      <SelectionBox
-        fighter={fighterB?.name ?? "Unknown"}
-        option="b"
-        elo={fighterB?.elo ?? 0}
-        isShown={isShown}
-        selectedOption={selectedOption}
-        onSelect={handleSelect}
-      />
-
-      </BrowserRouter>
-      <FighterList /> 
-    </>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/evo" element={
+          <>
+            <SelectionBox
+              fighter={fighterA?.name ?? "Unknown"}
+              option="a"
+              elo={fighterA?.elo ?? 0}
+              isShown={isShown}
+              selectedOption={selectedOption}
+              onSelect={handleSelect}
+            />
+            <SelectionBox
+              fighter={fighterB?.name ?? "Unknown"}
+              option="b"
+              elo={fighterB?.elo ?? 0}
+              isShown={isShown}
+              selectedOption={selectedOption}
+              onSelect={handleSelect}
+            />
+            <FighterList />
+          </>
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 
 function fetch2Fighters(setFighterA: (name: Fighter) => void, setFighterB: (name: Fighter) => void) {
-   fetchFighters()
+  fetchFighters()
     .then((fighters) => {
       console.log("Fetched Fighters:", fighters);
 
@@ -79,6 +85,3 @@ function fetch2Fighters(setFighterA: (name: Fighter) => void, setFighterB: (name
     })
     .catch(console.error);
 }
-
-
-
