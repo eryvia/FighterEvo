@@ -48,22 +48,58 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/evo" element={
           <>
-            <SelectionBox
-              fighter={fighterA?.name ?? "Unknown"}
-              option="a"
-              elo={fighterA?.elo ?? 0}
-              isShown={isShown}
-              selectedOption={selectedOption}
-              onSelect={handleSelect}
-            />
-            <SelectionBox
-              fighter={fighterB?.name ?? "Unknown"}
-              option="b"
-              elo={fighterB?.elo ?? 0}
-              isShown={isShown}
-              selectedOption={selectedOption}
-              onSelect={handleSelect}
-            />
+            <div style={{
+              display: "flex",
+              height: "100vh",
+              width: "100%",
+              position: "relative",
+              overflow: "hidden",
+            }}>
+              <SelectionBox
+                fighter={fighterA?.name ?? "Unknown"}
+                option="a"
+                elo={fighterA?.elo ?? 0}
+                imageUrl={fighterA?.image_url}
+                isShown={isShown}
+                selectedOption={selectedOption}
+                onSelect={handleSelect}
+              />
+
+              {/* VS divider */}
+              <div style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                background: "#0a0a0a",
+                border: "3px solid #333",
+                boxShadow: "0 0 30px rgba(0,0,0,0.8)",
+                fontWeight: 900,
+                fontSize: "1.1rem",
+                letterSpacing: "1px",
+                color: "#fff",
+                userSelect: "none",
+              }}>
+                VS
+              </div>
+
+              <SelectionBox
+                fighter={fighterB?.name ?? "Unknown"}
+                option="b"
+                elo={fighterB?.elo ?? 0}
+                imageUrl={fighterB?.image_url}
+                isShown={isShown}
+                selectedOption={selectedOption}
+                onSelect={handleSelect}
+              />
+            </div>
             <FighterList />
           </>
         } />
