@@ -7,6 +7,7 @@ interface UpdateEloParams {
   ratingLoser: number;
   k?: number;
 }
+
 export function updateElo({ ratingWinner, ratingLoser, k = 32 }: UpdateEloParams) {
   const expectedWinner = expectedScore(ratingWinner, ratingLoser);
   const expectedLoser = expectedScore(ratingLoser, ratingWinner);

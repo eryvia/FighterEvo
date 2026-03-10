@@ -26,7 +26,6 @@ export default function App() {
   const handleSelect = async (picked: Option) => {
     if (!fighterA || !fighterB) return;
 
-    setIsShown(true);
     setSelectedOption(picked);
 
     const result = await fetchMatch({
@@ -34,6 +33,9 @@ export default function App() {
       bId: fighterB.id,
       picked,
     });
+
+
+    setIsShown(true);
 
     await new Promise(resolve => setTimeout(resolve, 1500));
 
