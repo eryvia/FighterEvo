@@ -3,6 +3,7 @@ export type Fighter = {
   name: string;
   elo: number;
   gamePlayed: number;
+  imageUrl?: string;
 };
 
 export type MatchRequest = {

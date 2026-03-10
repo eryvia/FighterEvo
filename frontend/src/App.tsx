@@ -1,13 +1,14 @@
 import { SelectionBox } from "./comps/SelectionBox";
 import { useState, useEffect } from "react";
-import FighterList from "./comps/FigtherList";
+//import FighterList from "./comps/FigtherList";
 import { fetchMatch } from "./api/fetchMatch";
 import { fetchFighters } from "./api/fetchFighters";
 import type { Fighter } from "./types/Fighter";
 import type { Option } from "./comps/SelectionBox";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./comps/Navbar";
-import Home from "./comps/Home";
+import Home from "./comps/pages/Home";
+import Leaderboard from "./comps/pages/Leaderboard";
 
 export default function App() {
 
@@ -34,6 +35,8 @@ export default function App() {
       picked,
     });
 
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
     setFighterA(result.nextA);
     setFighterB(result.nextB);
 
@@ -46,6 +49,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/evo" element={
           <>
             <div style={{
@@ -59,7 +63,7 @@ export default function App() {
                 fighter={fighterA?.name ?? "Unknown"}
                 option="a"
                 elo={fighterA?.elo ?? 0}
-                imageUrl={fighterA?.image_url}
+                imageUrl={fighterA?.imageUrl}
                 isShown={isShown}
                 selectedOption={selectedOption}
                 onSelect={handleSelect}
@@ -94,13 +98,13 @@ export default function App() {
                 fighter={fighterB?.name ?? "Unknown"}
                 option="b"
                 elo={fighterB?.elo ?? 0}
-                imageUrl={fighterB?.image_url}
+                imageUrl={fighterB?.imageUrl}
                 isShown={isShown}
                 selectedOption={selectedOption}
                 onSelect={handleSelect}
               />
             </div>
-            <FighterList />
+            {/*<FighterList />*/}
           </>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -121,3 +125,5 @@ function fetch2Fighters(setFighterA: (name: Fighter) => void, setFighterB: (name
     })
     .catch(console.error);
 }
+
+

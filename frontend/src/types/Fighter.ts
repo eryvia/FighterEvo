@@ -6,7 +6,7 @@ export type Fighter = {
   name: string;
   elo: number;
   gamePlayed: number;
-  image_url?: string;
+  imageUrl?: string;
 };
 
 export type FightersResponse = {
