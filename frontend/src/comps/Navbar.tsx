@@ -4,7 +4,7 @@ import "./Navbar.css";
 export default function Navbar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+      
   return (
     <nav className="tab-bar">
       <button
