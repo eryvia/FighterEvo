@@ -1,5 +1,5 @@
 import { SelectionBox } from "./comps/SelectionBox";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 //import FighterList from "./comps/FigtherList";
 import { fetchMatch } from "./api/fetchMatch";
 import { fetchFighters } from "./api/fetchFighters";
@@ -18,6 +18,7 @@ export default function App() {
 
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [isShown, setIsShown] = useState(false);
+  const isProcessing = useRef(false);
 
   useEffect(() => {
     fetch2Fighters(setFighterA, setFighterB);
@@ -25,6 +26,8 @@ export default function App() {
 
   const handleSelect = async (picked: Option) => {
     if (!fighterA || !fighterB) return;
+    if (isProcessing.current) return;
+    isProcessing.current = true;
 
     setSelectedOption(picked);
 
@@ -34,6 +37,9 @@ export default function App() {
       picked,
     });
 
+    // Update local state with new ELO values so it sees new elo./
+    setFighterA({ ...fighterA, elo: result.FighterA_Elo });
+    setFighterB({ ...fighterB, elo: result.FighterB_Elo });
 
     setIsShown(true);
 
@@ -44,6 +50,7 @@ export default function App() {
 
     setSelectedOption(null);
     setIsShown(false);
+    isProcessing.current = false;
   };
 
   return (
@@ -71,7 +78,7 @@ export default function App() {
                 onSelect={handleSelect}
               />
 
-              {/* VS divider */}
+              {/* VS divider  - nekde jsem to sehnal*/}
               <div style={{
                 position: "absolute",
                 left: "50%",

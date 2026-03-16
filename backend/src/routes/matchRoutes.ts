@@ -89,6 +89,9 @@ router.post("/match", (req, res) => {
   return res.json({
     matchId: `${aId}_${bId}_${Date.now()}`,
     winnerId: winner.id,
+    FighterA_Elo: a.elo,
+    loserId: loser.id,
+    FighterB_Elo: b.elo,
     delta,
     nextA,
     nextB,
